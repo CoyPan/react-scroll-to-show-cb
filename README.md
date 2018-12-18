@@ -7,6 +7,11 @@ React component that fires a callback when the wrapped dom scroll into the visib
 npm install react-scroll-to-show-cb --save
 ```
 ## usage
+support:  
+  - Before React v16.0 
+  - After React v16.0 
+  - preact (preact-compat) - need to set alias: **react** -> **preact-compat** , **react-dom** -> **preact-compat** 
+
 ```javascript
 
 import React from 'react';
