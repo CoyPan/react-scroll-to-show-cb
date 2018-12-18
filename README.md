@@ -17,8 +17,7 @@ class App extends React.Component {
     
     render() {
         return <div>
-            <ReactScrollToShowCb
-                scrollToShowCb={this.handleShow} once={true} wait={500}>
+            <ReactScrollToShowCb scrollToShowCb={this.handleShow} once={true} wait={500}>
                 <div>1</div>
                 <div>2</div>
                 <div>3</div>
@@ -87,8 +86,6 @@ The wait time to fire the callback.
 - **Class react component** is supported.
 
 - **Functional react component** is not supported.
-
-- Array or single element are all supported.
 
 - If given an Array, every element of the Array should be the same type.
 
