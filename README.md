@@ -82,15 +82,17 @@ The wait time to fire the callback.
 
 **required**
 
-- Can be HTML elements, such as `div`, `p`, `section` and so on.
+- HTML elements, such as `div`, `p`, `section` , are supported.
 
-- Also, class **react component** is supported.
+- **Class react component** is supported.
+
+- **Functional react component** is not supported.
 
 - Array or single element are all supported.
 
 - If given an Array, every element of the Array should be the same type.
 
-- **Functional react component** is not supported.
+
 
 
 
