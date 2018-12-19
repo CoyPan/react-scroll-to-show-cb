@@ -58,7 +58,7 @@ The demo app is running at  [http://localhost:8080](http://localhost:8080).
 <ReactScrollToShowCb
     scrollToShowCb={(index, dom) => {}} 
     once={Boolean} 
-    update={Boolean}
+    async={Boolean}
     wait={Number}> 
     {children}     
 </ReactScrollToShowCb>
@@ -70,11 +70,11 @@ The demo app is running at  [http://localhost:8080](http://localhost:8080).
 
 When the wrapped children are scrolled into visible view, this callback function will be triggered with two parameters : the index of the child and the dom of the child.
 
-#### update
+#### async
 
 **default:false**
 
-When set to true, **the change of child's count** will trigger the update of **react-scroll-to-show-cb** so that when the new children scroll into view , the callback will also be triggered.
+When set to true, you can set the children async and the scrollToShowCb will be also triggered.
 
 #### once
 
@@ -100,6 +100,10 @@ The throttle wait time for the callback.
 - **Functional react component** is **not** supported.
 
 - If given an Array, every element of the array should be the same type(the same html element or the same react component);
+
+## note
+If you change the children of react-scroll-to-show-cb,
+including replacing a child 、adding a child or removing a child, the react-scroll-to-show-cb will not work anymore. **Pay attention to this!**
 
 
 

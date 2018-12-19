@@ -25,6 +25,7 @@ class Test extends React.Component {
 
         this.handleIncreaseClick = this.handleIncreaseClick.bind(this);
         this.handleDecreaseClick = this.handleDecreaseClick.bind(this);
+        this.handleChangeClick = this.handleChangeClick.bind(this);
     }
 
     getJSX() {
@@ -59,10 +60,13 @@ class Test extends React.Component {
             case 2:
                 jsx = <ReactScrollToShowCb
                     scrollToShowCb={this.handleListDomShow}
-                    once={true}
+                    once={false}
                     wait={1000}
-                    update={true}>
+                    async={true}>
                     {this.state.list.map((item, idx) => {
+                        if(item === 2){
+                            return <p key={idx} className="list-dom">{`changedom-${idx}`}</p>
+                        }
                         return <div key={idx} className="list-dom">{`async-${idx}`}</div>
                     })}
                 </ReactScrollToShowCb>
@@ -77,12 +81,13 @@ class Test extends React.Component {
         const { flag } = this.state;
         return <div>
             <div>
-                <button onClick={this.handleBtnClk.bind(this, 1)} style={flag === 1 ? { backgroundColor: '#bbb' } : {}}>update = 0</button>
-                <button onClick={this.handleBtnClk.bind(this, 2)} style={flag === 2 ? { backgroundColor: '#bbb' } : {}}>update = 1</button>
+                <button onClick={this.handleBtnClk.bind(this, 1)} style={flag === 1 ? { backgroundColor: '#bbb' } : {}}>async = 0</button>
+                <button onClick={this.handleBtnClk.bind(this, 2)} style={flag === 2 ? { backgroundColor: '#bbb' } : {}}>async = 1</button>
             </div>
             <div style={flag === 2 ? {display:'block'} : {display: 'none'}}>
                 <button onClick={this.handleIncreaseClick}>Increase child</button>
                 <button onClick={this.handleDecreaseClick}>Decrease child</button>
+                <button onClick={this.handleChangeClick}>Change child</button>
             </div>
             {this.getJSX()}
         </div>
@@ -115,6 +120,12 @@ class Test extends React.Component {
     handleDecreaseClick(){
         this.setState({
             list: this.state.list.slice(1)
+        });
+    }
+
+    handleChangeClick() {
+        this.setState({
+            list: this.state.list.slice(0, this.state.list.length - 1).concat([2])
         });
     }
 
