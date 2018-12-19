@@ -68,7 +68,7 @@ The demo app is running at  [http://localhost:8080](http://localhost:8080).
 
 **required**
 
-When the wrapped children are scrolled into visible view, this callback function will be triggered with a parameter that indicates the index of children.
+When the wrapped children are scrolled into visible view, this callback function will be triggered with two parameters : the index of the child and the dom of the child.
 
 #### update
 
