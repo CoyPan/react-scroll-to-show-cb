@@ -79,11 +79,11 @@ var ReactScrollToShowCb = function (_React$Component) {
                 this.checkIsSameTypeChild();
                 this.destoryScrollEvent();
                 this.initScrollEvent();
-                this.domObjArrLock = true;
             } else {
                 this.destoryScrollEvent();
                 this.domObjArr = [];
             }
+            this.domObjArrLock = true;
         }
     }, {
         key: 'componentWillUnmount',
