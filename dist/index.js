@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -37,7 +41,6 @@ var _reactDom = require('react-dom');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var REACT_BOUNDARY_VER = 16;
-var DOM_ATTRIBUTE_KEY = 'data-rstsc-showed';
 
 var ReactScrollToShowCb = function (_React$Component) {
     (0, _inherits3.default)(ReactScrollToShowCb, _React$Component);
@@ -49,8 +52,9 @@ var ReactScrollToShowCb = function (_React$Component) {
 
         _this.scrollToShowCb = props.scrollToShowCb;
         _this.once = props.once === undefined ? true : props.once;
-        _this.update = props.update === undefined ? false : props.update;
+        _this.async = props.async === undefined ? false : props.async;
         _this.wait = props.wait || 500;
+        _this.domObjArrLock = false;
         _this.domObjArr = [];
         _this.showedDomCount = 0;
 
@@ -71,9 +75,14 @@ var ReactScrollToShowCb = function (_React$Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate(prevProps, prevState) {
-            if (_react2.default.Children.count(prevProps.children) !== _react2.default.Children.count(this.props.children)) {
+            if (this.async === true && _react2.default.Children.count(prevProps.children) === 0 && _react2.default.Children.count(this.props.children) !== 0) {
+                this.checkIsSameTypeChild();
                 this.destoryScrollEvent();
                 this.initScrollEvent();
+                this.domObjArrLock = true;
+            } else {
+                this.destoryScrollEvent();
+                this.domObjArr = [];
             }
         }
     }, {
@@ -124,40 +133,30 @@ var ReactScrollToShowCb = function (_React$Component) {
     }, {
         key: 'updateDomArr',
         value: function updateDomArr(oldArr) {
-            var _this3 = this;
-
-            return oldArr.reduce(function (sum, item) {
-                if (item.dom && document.body.contains(item.dom)) {
-                    var offsetTop = _ytool2.default.getOffetTop(item.dom);
-                    var offsetHeight = window.parseFloat(window.getComputedStyle(item.dom)['height']);
-                    var isShowed = window.parseInt(item.dom.getAttribute(DOM_ATTRIBUTE_KEY), 10) === 1;
-                    isShowed && _this3.showedDomCount++;
-                    sum.push({
-                        dom: item.dom,
-                        offsetTop: offsetTop,
-                        offsetHeight: offsetHeight,
-                        isShowed: isShowed
-                    });
-                }
-                return sum;
-            }, []);
+            return oldArr.map(function (item) {
+                var offsetTop = _ytool2.default.getOffetTop(item.dom);
+                var offsetHeight = window.parseFloat(window.getComputedStyle(item.dom)['height']);
+                return (0, _extends3.default)({}, item, {
+                    offsetTop: offsetTop,
+                    offsetHeight: offsetHeight
+                });
+            });
         }
     }, {
         key: 'checkListIsInView',
         value: function checkListIsInView() {
-            var _this4 = this;
+            var _this3 = this;
 
             this.domObjArr.forEach(function (item, idx) {
-                if (_this4.once) {
-                    if (_this4.checkItemIsInView(item) && !item.isShowed) {
+                if (_this3.once) {
+                    if (_this3.checkItemIsInView(item) && !item.isShowed) {
                         item.isShowed = true;
-                        item.dom.setAttribute(DOM_ATTRIBUTE_KEY, 1);
-                        _this4.showedDomCount++;
-                        _this4.scrollToShowCb && _this4.scrollToShowCb(idx, item.dom);
+                        _this3.showedDomCount++;
+                        _this3.scrollToShowCb && _this3.scrollToShowCb(idx, item.dom);
                     }
                 } else {
-                    if (_this4.checkItemIsInView(item)) {
-                        _this4.scrollToShowCb && _this4.scrollToShowCb(idx, item.dom);
+                    if (_this3.checkItemIsInView(item)) {
+                        _this3.scrollToShowCb && _this3.scrollToShowCb(idx, item.dom);
                     }
                 }
             });
@@ -180,6 +179,9 @@ var ReactScrollToShowCb = function (_React$Component) {
     }, {
         key: 'handleRef',
         value: function handleRef(e) {
+            if (this.domObjArrLock) {
+                return;
+            }
             var dom = null;
             if (Object.prototype.toString.call(e) === '[object Object]') {
                 dom = (0, _reactDom.findDOMNode)(e);
@@ -196,7 +198,7 @@ var ReactScrollToShowCb = function (_React$Component) {
         value: function checkIsSameTypeChild() {
             var children = _react2.default.Children.toArray(this.props.children);
             var firstChild = children[0];
-            if (!firstChild && this.update === false) {
+            if (!firstChild && this.async === false) {
                 return this.warn('Children should not be empty');
             }
             var isSameTypeChild = children.every(function (child) {
