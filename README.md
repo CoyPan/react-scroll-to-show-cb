@@ -34,8 +34,9 @@ class App extends React.Component {
         </div>
     }
 
-    handleShow(index) {
-        console.log(`dom show: ${index}`);
+    handleShow(index, dom) {
+        console.log(`index: ${index}`);
+        console.log('dom:', dom);
     }
 
 }
@@ -55,9 +56,10 @@ The demo app is running at  [http://localhost:8080](http://localhost:8080).
 ## API
 ```javascript
 <ReactScrollToShowCb
-    scrollToShowCb={(index) => {}} 
+    scrollToShowCb={(index, dom) => {}} 
     once={Boolean} 
-    wait={Number}>    
+    update={Boolean}
+    wait={Number}> 
     {children}     
 </ReactScrollToShowCb>
 ```
@@ -66,21 +68,26 @@ The demo app is running at  [http://localhost:8080](http://localhost:8080).
 
 **required**
 
-When the wrapped children are scrolled into visible view, this callback function will be called with a parameter that indicates the index of children.
+When the wrapped children are scrolled into visible view, this callback function will be triggered with a parameter that indicates the index of children.
+
+#### update
+
+**default:false**
+
+When set to true, **the change of child's count** will trigger the update of **react-scroll-to-show-cb** so that when the new children scroll into view , the callback will also be triggered.
 
 #### once
 
 **default: false** 
 
-When set to true, every time the dom showed, the callback will be called.
-
+When set to true, every time the dom showed, the callback will be triggered.
 
 
 #### wait
 
 **default: 500**
 
-The wait time to fire the callback.
+The throttle wait time for the callback.
 
 #### children
 
@@ -90,9 +97,9 @@ The wait time to fire the callback.
 
 - **Class react component** is supported.
 
-- **Functional react component** is not supported.
+- **Functional react component** is **not** supported.
 
-- If given an Array, every element of the Array should be the same type.
+- If given an Array, every element of the array should be the same type(the same html element or the same react component);
 
 
 

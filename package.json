@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-to-show-cb",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A react component that fires a callback when the wrapped dom scroll into the visible area",
   "main": "dist/index.js",
   "directories": {
