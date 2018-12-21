@@ -23,6 +23,7 @@ class Test extends React.Component {
         super();
         this.asyncFlag = 0;
 
+        this.handleInitEnd = this.handleInitEnd.bind(this);
         this.handleIncreaseClick = this.handleIncreaseClick.bind(this);
         this.handleDecreaseClick = this.handleDecreaseClick.bind(this);
         this.handleChangeClick = this.handleChangeClick.bind(this);
@@ -34,8 +35,8 @@ class Test extends React.Component {
             case 1:
                 jsx = <div className="list-dom-wrapper">
                     <ReactScrollToShowCb
-                        scrollToShowCb={this.handleListDomShow}
-                        once={true}
+                        onScrollToShow={this.handleListDomShow}
+                        once={false}
                         wait={1000}>
                         <div className="list-dom">0</div>
                         <div className="list-dom">1</div>
@@ -59,8 +60,9 @@ class Test extends React.Component {
                 break;
             case 2:
                 jsx = <ReactScrollToShowCb
-                    scrollToShowCb={this.handleListDomShow}
-                    once={false}
+                    onScrollToShow={this.handleListDomShow}
+                    onInitEnd={this.handleInitEnd}
+                    once={true}
                     wait={1000}
                     async={true}>
                     {this.state.list.map((item, idx) => {
@@ -110,10 +112,16 @@ class Test extends React.Component {
         });
     }
 
+    handleInitEnd(instance) {
+        this.scollInstance = instance;
+        console.log(instance);
+    }
 
     handleIncreaseClick() {
         this.setState({
             list: this.state.list.concat([1])
+        }, () => {
+            ReactScrollToShowCb.Update(this.scollInstance);
         });
     }
 
@@ -128,7 +136,6 @@ class Test extends React.Component {
             list: this.state.list.slice(0, this.state.list.length - 1).concat([2])
         });
     }
-
 
     handleListDomShow(index, dom) {
         console.log('--------------------------');
