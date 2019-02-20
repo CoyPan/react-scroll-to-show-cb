@@ -28,7 +28,7 @@
     "babel-runtime": "^6.26.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
-    "ytool": "^1.0.8"
+    "ytool": "^1.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
