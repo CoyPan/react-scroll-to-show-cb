@@ -90,9 +90,9 @@ When set to true, you can set the children async and the onScrollToShow will be 
 
 #### once
 
-**default: false** 
+**default: true** 
 
-When set to true, every time the dom showed, the callback will be triggered.
+When set to false, every time the dom showed, the callback will be triggered.
 
 
 #### wait
