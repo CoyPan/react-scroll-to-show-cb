@@ -94,6 +94,10 @@ When set to true, you can set the children async and the onScrollToShow will be 
 
 When set to false, every time the dom showed, the callback will be triggered.
 
+#### autoInit
+**default: true** 
+
+When set to false, you can init ReactScrollToShowCb's instance whenever you want by using  ReactScrollToShowCb.Update.
 
 #### wait
 
@@ -122,7 +126,7 @@ When you change the children, adding a child or removing a child, the ReactScrol
 import ReactScrollToShowCb from'react-scroll-to-show-cb';
 
 ...
-//  ins: the instance of the ReactScrollToShowCb. You can get it the instance by [onInitEnd]
+//  ins: the instance of the ReactScrollToShowCb. You can get the instance by [onInitEnd]
 ReactScrollToShowCb.Update(ins);
 ...
 

@@ -58,6 +58,7 @@ var ReactScrollToShowCb = function (_React$Component) {
 
         _this.once = props.once === undefined ? true : props.once;
         _this.async = props.async === undefined ? false : props.async;
+        _this.autoInit = props.autoInit === undefined ? true : props.autoInit;
         _this.wait = props.wait || 500;
         _this.domObjArrLock = false;
         _this.domObjArr = [];
@@ -75,8 +76,10 @@ var ReactScrollToShowCb = function (_React$Component) {
     (0, _createClass3.default)(ReactScrollToShowCb, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.updateDomArr(this.domObjArr);
-            this.initScrollEvent();
+            if (this.autoInit) {
+                this.updateDomArr(this.domObjArr);
+                this.initScrollEvent();
+            }
             this.onInitEnd && this.onInitEnd(this);
         }
     }, {
