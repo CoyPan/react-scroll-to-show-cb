@@ -64,7 +64,7 @@ var ReactScrollToShowCb = function (_React$Component) {
         _this.originDomObjArr = [];
         _this.showedDomCount = 0;
 
-        _this.reactVersion = _react2.default.version && window.parseInt(_react2.default.version.split('.')[0]) || REACT_BOUNDARY_VER;
+        _this.reactVersion = _react2.default.version && parseInt(_react2.default.version.split('.')[0]) || REACT_BOUNDARY_VER;
 
         _this.handleRef = _this.handleRef.bind(_this);
         _this.handlScroll = _ytool2.default.throttle(_this.handlScroll, _this.wait).bind(_this);
